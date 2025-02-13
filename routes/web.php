@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +16,12 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/categories', [CategoriesController::class, 'index']);
+Route::get('api/products', [ProductsController::class, 'index']);
+Route::get('/products/{slug}', [ProductsController::class, 'show'])->name('products.show');
+//get product by categories and subcategories
+Route::get('/categories/{slug}', [CategoriesController::class, 'filterPorducts'])->name('categories.show');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -24,4 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+
+//test route
