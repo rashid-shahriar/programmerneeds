@@ -20,7 +20,7 @@ Route::get('/categories', [CategoriesController::class, 'index']);
 Route::get('api/products', [ProductsController::class, 'index']);
 Route::get('/products/{slug}', [ProductsController::class, 'show'])->name('products.show');
 //get product by categories and subcategories
-Route::get('/categories/{slug}', [CategoriesController::class, 'filterPorducts'])->name('categories.show');
+Route::get('/categories/{slug}', [ProductsController::class, 'filterPorducts'])->name('categories.show');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

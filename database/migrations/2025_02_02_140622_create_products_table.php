@@ -17,8 +17,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('price', 8, 2)->nullable();
             $table->string('image')->nullable();
-            // $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
-            // $table->foreignId('subcategory_id')->nullable()->constrained('categories')->onDelete('set null');
+            $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('subcategory_id')->nullable()->constrained('subcategories')->onDelete('set null');
             $table->foreignId('author_id')->nullable()->constrained('authors')->onDelete('set null');
             $table->unsignedTinyInteger('star_rating')->nullable()->default(0);
             $table->date('release_date')->nullable();
@@ -40,6 +40,7 @@ return new class extends Migration
             $table->boolean('featured')->default(false);
             $table->string('external_url')->nullable();
             $table->string('slug')->unique();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

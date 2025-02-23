@@ -15,44 +15,10 @@ class CategoriesController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
         return response()->json(Categories::with('subcategories')->get());
-    }
-
-    //
-    public function filterPorducts(Request $request, $slug)
-    {
-        // Find category or subcategory
-        $category = Categories::where('slug', $slug)->first();
-        $subcategory = Subcategories::where('slug', $request->slug)->first();
-
-        if (!$category && !$subcategory) {
-            return response()->json(['message' => 'Category or Subcategory not found'], 404);
-        }
-
-        // Query products that belong to the category (many-to-many)
-        $query = Products::query()->with('categories');
-
-        if ($category) {
-            $query->whereHas('categories', function ($q) use ($category) {
-                $q->where('categories.id', $category->id);
-            });
-        }
-
-        if ($subcategory) {
-            $query->where('subcategory_id', $subcategory->id);
-        }
-
-        $products = $query->get();
-
-        dd($products);
-
-        return Inertia::render('CategoryShow', [
-            'category' => $category,
-            'products' => $products,
-            'subcategory' => $subcategory
-        ]);
     }
 
 
